@@ -1,17 +1,17 @@
-package com.rookies4.myspringbootlab.config;
+package com.rookies4.myspringbootlab.Repository.config;
 
 import com.rookies4.myspringbootlab.config.vo.MyEnvironment;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-@Profile("prod")
+@Profile("dev")
 @Configuration
-public class ProdConfig {
+public class DevConfig {
     @Bean
-    public MyEnvironment myEnvironment() {
+    private MyEnvironment myEnvironment() {
         return MyEnvironment.builder()
-                .mode("운영환경")
+                .mode("개발환경")
                 .build();
     }
 }
