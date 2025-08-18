@@ -1,4 +1,4 @@
-package com.rookies4.myspringbootlab.Repository;
+package com.rookies4.myspringbootlab;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
