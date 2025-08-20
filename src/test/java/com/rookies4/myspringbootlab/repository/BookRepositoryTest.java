@@ -1,9 +1,9 @@
 package com.rookies4.myspringbootlab.repository;
 
-import com.rookies4.myspringbootlab.Repository.Repository.BookRepository;
-import com.rookies4.myspringbootlab.Repository.entity.Book;
+import com.rookies4.myspringbootlab.entity.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +18,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 //@DataJpaTest
 public class BookRepositoryTest {
-
+    
     @Autowired
     private BookRepository bookRepository;
-
+    
     @Test
     public void testCreateBook() {
         // Given
@@ -31,16 +31,16 @@ public class BookRepositoryTest {
         book.setIsbn("9788956746425");
         book.setPublishDate(LocalDate.of(2023, 1, 15));
         book.setPrice(30000);
-
+        
         // When
         Book savedBook = bookRepository.save(book);
-
+        
         // Then
         assertThat(savedBook.getId()).isNotNull();
         assertThat(savedBook.getTitle()).isEqualTo("스프링 부트 입문");
         assertThat(savedBook.getAuthor()).isEqualTo("홍길동");
     }
-
+    
     @Test
     public void testFindByIsbn() {
         // Given
@@ -55,12 +55,12 @@ public class BookRepositoryTest {
 
         // When
         Optional<Book> foundBook = bookRepository.findByIsbn("9788956746425");
-
+        
         // Then
         assertThat(foundBook).isPresent();
         assertThat(foundBook.get().getTitle()).isEqualTo("스프링 부트 입문");
     }
-
+    
     @Test
     public void testFindByAuthor() {
         // Given
@@ -89,15 +89,15 @@ public class BookRepositoryTest {
 //        bookRepository.save(book2);
 //        bookRepository.save(book3);
         bookRepository.saveAll(List.of(book1,book2,book3));
-
+        
         // When
         List<Book> books = bookRepository.findByAuthor("홍길동");
-
+        
         // Then
         assertThat(books).hasSize(2);
         assertThat(books).extracting("title").contains("스프링 부트 입문","스프링 클라우드");
     }
-
+    
     @Test
     @Rollback(value = false)
     public void testUpdateBook() {
@@ -109,16 +109,16 @@ public class BookRepositoryTest {
         book.setPrice(30000);
         book.setPublishDate(LocalDate.of(2025, 3, 24));
         Book savedBook = bookRepository.save(book);
-
+        
         // When
         savedBook.setPrice(32000);
         //Book updatedBook = bookRepository.save(savedBook);
-
+        
         // Then
         //assertThat(updatedBook.getPrice()).isEqualTo(32000);
         assertThat(savedBook.getPrice()).isEqualTo(32000);
     }
-
+    
     @Test
     @Rollback(value = false)
     public void testDeleteBook() {
@@ -130,10 +130,10 @@ public class BookRepositoryTest {
         book.setPrice(30000);
         book.setPublishDate(LocalDate.of(2025, 7, 24));
         Book savedBook = bookRepository.save(book);
-
+        
         // When
         bookRepository.deleteById(savedBook.getId());
-
+        
         // Then
         assertThat(bookRepository.findById(savedBook.getId())).isEmpty();
     }
