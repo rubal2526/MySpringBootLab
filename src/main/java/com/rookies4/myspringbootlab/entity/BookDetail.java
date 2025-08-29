@@ -5,12 +5,11 @@ import lombok.*;
 
 @Entity
 @Table(name = "book_details")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor // @Builder 어노테이션을 사용하려면 모든 필드를 포함한 생성자가 필요합니다.
-@Builder          // 테스트 코드에서 사용된 빌더 패턴을 적용합니다.
-@ToString(exclude = "book")
 public class BookDetail {
 
     @Id
@@ -18,17 +17,25 @@ public class BookDetail {
     @Column(name = "book_detail_id")
     private Long id;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "language")
     private String language;
 
-    // 테스트 코드의 'pageCount' 필드와 일치시키기 위해 'pages'에서 수정합니다.
+    @Column(name = "page_count")
     private Integer pageCount;
 
+    @Column(name = "publisher")
     private String publisher;
+
+    @Column(name = "cover_image_url")
     private String coverImageUrl;
+
+    @Column(name = "edition")
     private String edition;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", unique = true, nullable = false)
+    @JoinColumn(name = "book_id", unique = true)
     private Book book;
 }

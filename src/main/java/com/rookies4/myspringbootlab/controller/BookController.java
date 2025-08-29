@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
@@ -48,14 +49,16 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookDTO.Response> createBook(@Valid @RequestBody BookDTO.Request requestDto) {
-        BookDTO.Response createdBook = bookService.createBook(requestDto);
+    public ResponseEntity<BookDTO.Response> createBook(@Valid @RequestBody BookDTO.Request request) {
+        BookDTO.Response createdBook = bookService.createBook(request);
         return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDTO.Response> updateBook(@PathVariable Long id, @Valid @RequestBody BookDTO.Request requestDto) {
-        BookDTO.Response updatedBook = bookService.updateBook(id, requestDto);
+    public ResponseEntity<BookDTO.Response> updateBook(
+            @PathVariable Long id,
+            @Valid @RequestBody BookDTO.Request request) {
+        BookDTO.Response updatedBook = bookService.updateBook(id, request);
         return ResponseEntity.ok(updatedBook);
     }
 
